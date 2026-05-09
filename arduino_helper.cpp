@@ -2,19 +2,23 @@
 
 const int LED_PIN = 8; 
 
-void Blinky(int PIN, float DELAY_FIRST = 1, float DELAY_SECOND = 1) {
-    digitalWrite(LED_PIN, HIGH); 
-    delay(DELAY_FIRST * 1000);  
-    digitalWrite(LED_PIN, LOW);
-    delay(DELAY_SECOND * 1000);   
-}
-
 void On(int PIN) {
     digitalWrite(PIN, HIGH);
 }
 
 void Off(int PIN) {
     digitalWrite(PIN, LOW);
+}
+
+void Wait(float seconds) {
+    delay(seconds * 1000);
+}
+
+void Blinky(int PIN, float DELAY_FIRST = 1, float DELAY_SECOND = 1) {
+    On(LED_PIN); 
+    Wait(DELAY_FIRST);  
+    Off(LED_PIN);
+    Wait(DELAY_SECOND);  
 }
 
 void Out(int PIN) {
@@ -27,10 +31,6 @@ void In(int PIN) {
 
 void Print(const char* str) {
     Serial.println(str);
-}
-
-void Wait(float seconds) {
-    delay(seconds * 1000);
 }
 
 int Scale(int val, int inMin, int inMax, int outMin, int outMax) {
@@ -84,11 +84,10 @@ bool IsLow(int PIN) {
 void setup() {
     Serial.begin(115200);
     Out(LED_PIN);
-    Print("LED Init...");
+    Off(8);
 }
 
 void loop() {
-  Blinky(LED_PIN, 1, 0.25);
-  Print("LED Blinking");
+  Blinky(8);
   Wait(1);
 }
