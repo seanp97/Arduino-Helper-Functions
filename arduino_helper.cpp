@@ -9,6 +9,14 @@ void Blinky(int PIN, float DELAY_FIRST = 1, float DELAY_SECOND = 1) {
     delay(DELAY_SECOND * 1000);   
 }
 
+void On(int PIN) {
+    digitalWrite(PIN, HIGH);
+}
+
+void Off(int PIN) {
+    digitalWrite(PIN, LOW);
+}
+
 void Out(int PIN) {
     pinMode(PIN, OUTPUT);
 }
@@ -42,6 +50,10 @@ int Scan(int PIN) {
     return analogRead(PIN);
 }
 
+int Read(int PIN) {
+    return digitalRead(PIN);
+}
+
 int ScanSmooth(int PIN) {
     long total = 0;
     for(int i = 0; i < 10; i++) {
@@ -49,6 +61,10 @@ int ScanSmooth(int PIN) {
         delay(1); 
     }
     return total / 10;
+}
+
+float Voltage(int PIN) {
+    return analogRead(PIN) * (5.0 / 1023.0);
 }
 
 void PrintVal(const char* label, int val) {
@@ -74,5 +90,5 @@ void setup() {
 void loop() {
   Blinky(LED_PIN, 1, 0.25);
   Print("LED Blinking");
-  delay(1000);
+  Wait(1);
 }
