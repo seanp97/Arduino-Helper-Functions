@@ -50,8 +50,45 @@ int Scan(int PIN) {
     return analogRead(PIN);
 }
 
+bool Pressed(int PIN) {
+    return digitalRead(PIN) == HIGH;
+}
+
 int Read(int PIN) {
     return digitalRead(PIN);
+}
+
+bool Released(int PIN) {
+    return digitalRead(PIN) == LOW;
+}
+
+void Pullup(int PIN) {
+    pinMode(PIN, INPUT_PULLUP);
+}
+
+int RandomInt(int min, int max) {
+    return random(min, max);
+}
+
+float RandomFloat(float min, float max) {
+    return min + ((float)random(0, 10000) / 10000.0) * (max - min);
+}
+
+bool Changed(int PIN) {
+    static int lastState[20];
+
+    int current = digitalRead(PIN);
+
+    if(current != lastState[PIN]) {
+        lastState[PIN] = current;
+        return true;
+    }
+
+    return false;
+}
+
+void SerialBegin(int baud = 9600) {
+    Serial.begin(baud);
 }
 
 int ScanSmooth(int PIN) {
@@ -82,12 +119,13 @@ bool IsLow(int PIN) {
 }
 
 void setup() {
-    Serial.begin(115200);
+    SerialBegin();
     Out(LED_PIN);
     Off(8);
 }
 
 void loop() {
   Blinky(8);
+  Print("LED Blinking...");
   Wait(1);
 }
