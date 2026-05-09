@@ -22,6 +22,10 @@ void Out(int PIN) {
     pinMode(PIN, OUTPUT);
 }
 
+void In(int PIN) {
+    pinMode(PIN, INPUT);
+}
+
 void Print(const char* str) {
     Serial.println(str);
 }
