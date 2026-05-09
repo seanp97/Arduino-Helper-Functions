@@ -67,7 +67,7 @@ bool IsLow(int PIN) {
 
 void setup() {
     Serial.begin(115200);
-    OUT(LED_PIN);
+    Out(LED_PIN);
     Print("LED Init...");
 }
 
