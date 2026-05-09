@@ -1,7 +1,3 @@
-#include <Arduino.h>
-
-const int LED_PIN = 8; 
-
 void On(int PIN) {
     digitalWrite(PIN, HIGH);
 }
@@ -15,18 +11,15 @@ void Wait(float seconds) {
 }
 
 void Blinky(int PIN, float DELAY_FIRST = 1, float DELAY_SECOND = 1) {
-    On(LED_PIN); 
-    Wait(DELAY_FIRST);  
-    Off(LED_PIN);
-    Wait(DELAY_SECOND);  
+    On(PIN);
+    Wait(DELAY_FIRST);
+
+    Off(PIN);
+    Wait(DELAY_SECOND);
 }
 
 void Out(int PIN) {
     pinMode(PIN, OUTPUT);
-}
-
-void In(int PIN) {
-    pinMode(PIN, INPUT);
 }
 
 void Print(const char* str) {
@@ -42,7 +35,11 @@ void Toggle(int PIN) {
 }
 
 void Dim(int PIN, int brightness) {
-    if(brightness > 255 || brightness < 0) Print("Between 0 & 255"); 
+    if(brightness > 255 || brightness < 0) {
+        Print("Between 0 & 255");
+        return;
+    }
+
     analogWrite(PIN, brightness);
 }
 
@@ -54,12 +51,12 @@ bool Pressed(int PIN) {
     return digitalRead(PIN) == HIGH;
 }
 
-int Read(int PIN) {
-    return digitalRead(PIN);
-}
-
 bool Released(int PIN) {
     return digitalRead(PIN) == LOW;
+}
+
+int Read(int PIN) {
+    return digitalRead(PIN);
 }
 
 void Pullup(int PIN) {
@@ -93,10 +90,12 @@ void SerialBegin(int baud = 9600) {
 
 int ScanSmooth(int PIN) {
     long total = 0;
+
     for(int i = 0; i < 10; i++) {
         total += analogRead(PIN);
-        delay(1); 
+        delay(1);
     }
+
     return total / 10;
 }
 
@@ -104,7 +103,7 @@ float Voltage(int PIN) {
     return analogRead(PIN) * (5.0 / 1023.0);
 }
 
-void PrintVal(const char* label, int val) {
+void PrintVal(const char* label, float val) {
     Serial.print(label);
     Serial.print(": ");
     Serial.println(val);
@@ -118,14 +117,17 @@ bool IsLow(int PIN) {
     return digitalRead(PIN) == LOW;
 }
 
-void setup() {
-    SerialBegin();
-    Out(LED_PIN);
-    Off(8);
-}
+bool WasPressed(int PIN) {
+    static bool lastState = HIGH;
 
-void loop() {
-  Blinky(8);
-  Print("LED Blinking...");
-  Wait(1);
+    bool currentState = digitalRead(PIN);
+
+    if(currentState == LOW && lastState == HIGH) {
+        delay(50); // debounce
+        lastState = currentState;
+        return true;
+    }
+
+    lastState = currentState;
+    return false;
 }
