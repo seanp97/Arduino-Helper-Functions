@@ -1,3 +1,5 @@
+#include <Arduino.h>
+
 void On(int PIN) {
     digitalWrite(PIN, HIGH);
 }
@@ -10,6 +12,10 @@ void Wait(float seconds) {
     delay(seconds * 1000);
 }
 
+void Pin(int PIN, int TYPE) {
+    pinMode(PIN, TYPE);
+}
+
 void Blinky(int PIN, float DELAY_FIRST = 1, float DELAY_SECOND = 1) {
     On(PIN);
     Wait(DELAY_FIRST);
@@ -18,11 +24,11 @@ void Blinky(int PIN, float DELAY_FIRST = 1, float DELAY_SECOND = 1) {
     Wait(DELAY_SECOND);
 }
 
-void Out(int PIN) {
+void Output(int PIN) {
     pinMode(PIN, OUTPUT);
 }
 
-void In(int PIN) {
+void Input(int PIN) {
     pinMode(PIN, INPUT);
 }
 
@@ -49,6 +55,10 @@ void Dim(int PIN, int brightness) {
 
 int Scan(int PIN) {
     return analogRead(PIN);
+}
+
+void Write(int PIN, int STATE) {
+    digitalWrite(PIN, STATE ? HIGH : LOW);
 }
 
 bool Pressed(int PIN) {
