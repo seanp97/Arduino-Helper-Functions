@@ -11,7 +11,7 @@ public:
     // Constructor initializes the pin and sets mode
     Button(int pin) {
         _pin = pin;
-        pinMode(_pin, INPUT_PULLUP); 
+        pinMode(_pin, INPUT); 
     }
 
     static bool Pressed() {
