@@ -9,6 +9,7 @@ public:
 
     Led(int pin) {
         _ledPin = pin;
+        pinMode(_ledPin, OUTPUT);
     }
 
     static void On() {
