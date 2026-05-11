@@ -9,7 +9,7 @@ static int _Btnpin;
 public:
     Button(int pin) {
         _Btnpin = pin;
-        pinMode(_Btnpin, OUTPUT);
+        pinMode(_Btnpin, INPUT);
     }
 
     static bool Pressed() {
